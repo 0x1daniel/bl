@@ -50,3 +50,19 @@ footer {
 footer * {
   color: #DDDDDD;
 }
+
+/* = TYPOGRAPHY = */
+h2 { font-size: 1.8rem; }
+
+/* = COVER = */
+cover {
+  display: block;
+  min-height: 40vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+cover[index] {
+  border-bottom: 1px solid #DDDDDD;
+  margin-bottom: 30px;
+}

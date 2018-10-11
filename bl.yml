@@ -6,7 +6,12 @@ postgresql:
   dbname: bl
 bl:
   name: bl
+  abstract:
+    short: content focused
+    long: the content focused blog about tech
   copyright:
     url: https://github.com/oltdaniel
     label: Daniel Oltmanns
-  secret: 77a6d7e1e39abecad5e8b94dc3bf2b4127b8210272fc2737937192045d88c57afcd7b690c485fba83597831b096e29504797f51cc33b727084be1573cf072f93
+  secrets:
+    session: 422bb59dc779d9931c701ee1295c9da2aba3a04be25f806b6e556aef98e2b4020828d0d902733a9d0c4d8ba60ffa5b37abeb826eb3bf5619208591eb07833bd5
+    access: 77a6d7e1e39abecad5e8b94dc3bf2b4127b8210272fc2737937192045d88c57afcd7b690c485fba83597831b096e29504797f51cc33b727084be1573cf072f93

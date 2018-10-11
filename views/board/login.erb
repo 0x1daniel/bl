@@ -1,4 +1,4 @@
-<form login action="/board/login?secret=<%= config['secret'] %>" method="post">
+<form login action="/board/login?secret=<%= config['secrets']['access'] %>" method="post">
   <form-group>
     <label for="i-username">username</label>
     <input type="text" id="i-username" name="username" placeholder="john" required autofocus>

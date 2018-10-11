@@ -37,7 +37,7 @@ module Bl
       # Specify db field
       set :db, nil
       # Configure cookie session
-      use Rack::Session::Cookie, :key => 'bl.session', :path => '/', :secret => SecureRandom.hex(64)
+      use Rack::Session::Cookie, :key => 'bl.session', :path => '/', :secret => config['secrets']['session']
     end
 
     # Middleware
@@ -130,7 +130,7 @@ module Bl
     end
 
     def require_secret
-      redirect '/' unless config['secret'] == params[:secret]
+      redirect '/' unless config['secrets']['access'] == params[:secret]
     end
 
     def require_guest
