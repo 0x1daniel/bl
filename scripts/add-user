@@ -1,0 +1,23 @@
+#!/usr/bin/env ruby
+require_relative '../lib/bl'
+
+# Get data
+print 'fullname: '
+fullname = gets.strip
+print 'username: '
+username = gets.strip
+print 'password: '
+password = gets.strip
+print 'github: '
+github = gets.strip
+print 'email: '
+email = gets.strip
+print 'bio: '
+bio = gets.strip
+
+# Connect and insert
+db = Bl::Database.new
+db.create_new_user(
+  fullname: fullname, username: username, password: password, github: github,
+  email: email, bio: bio
+)

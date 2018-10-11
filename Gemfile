@@ -22,3 +22,4 @@
 source 'https://rubygems.org'
 
 gem 'sinatra', '~> 2.0', '>= 2.0.4'
+gem 'pg', '~> 1.1', '>= 1.1.3'

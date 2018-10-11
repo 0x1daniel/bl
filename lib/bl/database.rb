@@ -19,8 +19,30 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
-require_relative 'bl/database'
-require_relative 'bl/server'
+require 'pg'
+require 'argon2'
+require_relative 'tables'
+require_relative 'queries'
 
 module Bl
+  class Database
+    def initialize
+      # Connect to postgresql server
+      @db = PG.connect(dbname: 'bl', host: 'localhost', port: 5432, user: 'postgres', password: 'bacon')
+      # Ensure users table existence
+      @db.exec Tables::USERS
+    end
+
+    def create_new_user(fullname:, username:, password:, github:, email:, bio:)
+      # Hash password
+      password = Argon2::Password.create password
+      # Prepare insert query for database
+      @db.prepare("new_user:#{username}", Queries::NEW_USER)
+      # Insert values and start execution
+      @db.exec_prepared(
+        "new_user:#{username}",
+        [fullname, username, password, github, email, bio]
+      )
+    end
+  end
 end

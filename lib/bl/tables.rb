@@ -19,8 +19,18 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
-require_relative 'bl/database'
-require_relative 'bl/server'
-
 module Bl
+  module Tables
+    USERS = <<-SQL
+    CREATE TABLE IF NOT EXISTS users (
+      user_id bigserial primary key,
+      fullname varchar(100) NOT NULL,
+      username varchar(3) NOT NULL,
+      password varchar(100) NOT NULL,
+      github varchar(30) NOT NULL,
+      email varchar(100) NOT NULL,
+      bio varchar(140) NOT NULL
+    )
+    SQL
+  end
 end

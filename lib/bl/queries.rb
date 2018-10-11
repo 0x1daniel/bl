@@ -19,8 +19,11 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
-require_relative 'bl/database'
-require_relative 'bl/server'
-
 module Bl
+  module Queries
+    NEW_USER = <<-SQL
+    INSERT INTO users(fullname, username, password, github, email, bio)
+    VALUES ($1, $2, $3, $4, $5, $6)
+    SQL
+  end
 end
