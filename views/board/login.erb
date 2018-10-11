@@ -1,5 +1,13 @@
-<form action="/board/login?secret=<%= config['secret'] %>" method="post">
-  <input type="text" name="username" value="">
-  <input type="password" name="password" value="">
-  <button type="submit" name="button">login</button>
+<form login action="/board/login?secret=<%= config['secret'] %>" method="post">
+  <form-group>
+    <label for="i-username">username</label>
+    <input type="text" id="i-username" name="username" placeholder="john" required autofocus>
+  </form-group>
+  <form-group>
+    <label for="i-password">password</label>
+    <input type="password" id="i-password" name="password" placeholder="<%= SecureRandom.hex 8 %>" required>
+  </form-group>
+  <form-footer>
+    <button type="submit">login</button>
+  </form-footer>
 </form>

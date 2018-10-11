@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <title><%= config['name'] %></title>
+
+    <link rel="stylesheet" href="/assets/style.css">
   </head>
   <body>
     <header>
@@ -14,7 +16,9 @@
       <%= yield %>
     </main>
     <footer>
-      &copy; Copyright <%= Time.now.year %> - <a href="<%= config['copyright']['url'] %>" target="_blank"><%= config['copyright']['label'] %></a>
+      <p>
+        &copy; Copyright <%= Time.now.year %> - <a href="<%= config['copyright']['url'] %>" target="_blank"><%= config['copyright']['label'] %></a>
+      </p>
     </footer>
   </body>
 </html>

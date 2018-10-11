@@ -52,6 +52,15 @@ module Bl
       session[:flash] = nil
     end
 
+    # Assets
+    get '/assets/style.css' do
+      send_file 'static/style.css'
+    end
+
+    get '/assets/style.board.css' do
+      send_file 'static/style.board.css'
+    end
+
     # GET routes
     get '/' do
       erb :index
