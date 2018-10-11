@@ -4,3 +4,8 @@ postgresql:
   user: postgres
   password: bacon
   dbname: bl
+bl:
+  name: bl
+  copyright:
+    url: https://github.com/oltdaniel
+    label: Daniel Oltmanns

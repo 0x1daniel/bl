@@ -31,11 +31,20 @@ module Bl
       set :port, 3000
       # Set views directory
       set :views, 'views'
+      # Load config file
+      set :config, Bl::Config.parse['bl']
     end
 
     # GET routes
     get '/' do
       erb :index
+    end
+
+    # Class internal helper functions
+    private
+
+    def config
+      settings.config
     end
   end
 end

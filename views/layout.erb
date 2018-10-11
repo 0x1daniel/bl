@@ -4,17 +4,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>bl</title>
+    <title><%= config['name'] %></title>
   </head>
   <body>
     <header>
-      <brand>bl</brand>
+      <brand><%= config['name'] %></brand>
     </header>
     <main>
       <%= yield %>
     </main>
     <footer>
-      &copy; Copyright <%= Time.now.year %> - <a href="https://github.com/oltdaniel" target="_blank">Daniel Oltmanns</a>
+      &copy; Copyright <%= Time.now.year %> - <a href="<%= config['copyright']['url'] %>" target="_blank"><%= config['copyright']['label'] %></a>
     </footer>
   </body>
 </html>
