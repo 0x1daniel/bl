@@ -51,8 +51,6 @@ module Bl
     end
 
     def update_user(username:, field:, value:)
-      # Refuse username change
-      return if field == 'username'
       # Rehash password
       value = Argon2::Password.create(value) if field == 'password'
       # Construct query string
@@ -61,6 +59,13 @@ module Bl
       @db.prepare("update_user:#{username}", query)
       # Insert values and start execution
       @db.exec_prepared("update_user:#{username}", [username, value])
+    end
+
+    def delete_user(username:)
+      # Prepare delete query for database
+      @db.prepare("delete_user:#{username}", Queries::DELETE_USER)
+      # Insert values and start execution
+      @db.exec_prepared("delete_user:#{username}", [username])
     end
   end
 end

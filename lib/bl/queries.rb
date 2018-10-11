@@ -31,5 +31,10 @@ module Bl
     SET {FIELD}=$2
     WHERE username=$1
     SQL
+
+    DELETE_USER = <<-SQL
+    DELETE FROM users
+    WHERE username=$1
+    SQL
   end
 end

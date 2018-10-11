@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+require_relative '../lib/bl'
+
+# Get data
+print 'username: '
+username = gets.strip
+
+# Connect and insert
+db = Bl::Database.new
+db.delete_user(username: username)
