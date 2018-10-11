@@ -36,6 +36,17 @@ module Bl
       )
       # Ensure users table existence
       @db.exec Tables::USERS
+      # Ensure user queries to be prepared
+      @db.prepare("new_user", Queries::NEW_USER)
+      @db.prepare("get_user", Queries::GET_USER)
+      @db.prepare("delete_user:", Queries::DELETE_USER)
+      # Prepare each update query option
+      ['fullname', 'username', 'password', 'github', 'email', 'bio'].each do |f|
+        # Construct query string
+        query = Queries::UPDATE_USER.gsub(/\{FIELD\}/, f)
+        # Prepare query
+        @db.prepare("update_user:#{f}", query)
+      end
     end
 
     def create_new_user(fullname:, username:, password:, github:, email:, bio:)
@@ -53,12 +64,8 @@ module Bl
     def update_user(username:, field:, value:)
       # Rehash password
       value = Argon2::Password.create(value) if field == 'password'
-      # Construct query string
-      query = Queries::UPDATE_USER.gsub(/\{FIELD\}/, field)
-      # Prepare update query for database
-      @db.prepare("update_user:#{username}", query)
       # Insert values and start execution
-      @db.exec_prepared("update_user:#{username}", [username, value])
+      @db.exec_prepared("update_user:#{field}", [username, value])
     end
 
     def delete_user(username:)
@@ -66,6 +73,13 @@ module Bl
       @db.prepare("delete_user:#{username}", Queries::DELETE_USER)
       # Insert values and start execution
       @db.exec_prepared("delete_user:#{username}", [username])
+    end
+
+    def get_user_by_username(username:)
+      # Insert values and start execution
+      results = @db.exec_prepared("get_user", [username])
+      # Return if an record has been found
+      return results[0] if results.ntuples == 1
     end
   end
 end

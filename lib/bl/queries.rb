@@ -36,5 +36,10 @@ module Bl
     DELETE FROM users
     WHERE username=$1
     SQL
+
+    GET_USER = <<-SQL
+    SELECT * FROM users
+    WHERE username=$1
+    SQL
   end
 end

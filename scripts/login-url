@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+require_relative '../lib/bl'
+
+# Load secret from config
+secret = Bl::Config.parse['bl']['secret']
+
+puts "http://localhost:3000/board/login?secret=#{secret}"

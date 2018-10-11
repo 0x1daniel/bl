@@ -1,4 +1,6 @@
 #!/usr/bin/env ruby
 require_relative '../lib/bl'
 
+db = Bl::Database.new
+Bl::Server.settings.db = db
 Bl::Server.run!

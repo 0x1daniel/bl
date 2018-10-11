@@ -20,6 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 require 'sinatra/base'
+require 'argon2'
 
 module Bl
   class Server < Sinatra::Base
@@ -33,6 +34,22 @@ module Bl
       set :views, 'views'
       # Load config file
       set :config, Bl::Config.parse['bl']
+      # Specify db field
+      set :db, nil
+      # Configure cookie session
+      use Rack::Session::Cookie, :key => 'bl.session', :path => '/', :secret => SecureRandom.hex(64)
+    end
+
+    # Middleware
+    before do
+      # Check if middleware is required
+      return if !request.path.start_with?('/board')
+      # Read session values
+      @auth = session[:auth]
+      @user_id = session[:user_id] if @auth
+      # Read flash message
+      @flash = session[:flash]
+      session[:flash] = nil
     end
 
     # GET routes
@@ -40,11 +57,72 @@ module Bl
       erb :index
     end
 
+    get '/board' do
+      require_user
+      erb :'board/index', :layout => :'board/layout'
+    end
+
+    get '/board/login' do
+      require_secret
+      require_guest
+      erb :'board/login', :layout => :'board/layout'
+    end
+
+    # POST routes
+    post '/board/login' do
+      require_secret
+      require_guest
+      # Get body data
+      username = params[:username]
+      password = params[:password]
+      # Check data
+      if !username.nil? && !password.nil?
+        # Get database record
+        user = db.get_user_by_username(username: username)
+        p user['password']
+        # Check password
+        if !user.nil? && Argon2::Password.verify_password(password, user['password'])
+          # Update session details
+          session[:auth] = true
+          session[:user_id] = user['user_id']
+          # Redirect
+          redirect '/board'
+          return
+        end
+      end
+      # New error flash message
+      new_flash 'error', 'wrong credentials'
+      redirect "/board/login?secret=#{config['secret']}"
+    end
+
     # Class internal helper functions
     private
 
     def config
       settings.config
+    end
+
+    def db
+      settings.db
+    end
+
+    def new_flash(type, message)
+      session[:flash] = {
+        type: type,
+        message: message
+      }
+    end
+
+    def require_secret
+      redirect '/' if config['secret'] != params[:secret]
+    end
+
+    def require_guest
+      redirect '/board' if @auth
+    end
+
+    def require_user
+      redirect '/' if !@auth
     end
   end
 end
