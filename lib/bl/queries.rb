@@ -25,5 +25,11 @@ module Bl
     INSERT INTO users(fullname, username, password, github, email, bio)
     VALUES ($1, $2, $3, $4, $5, $6)
     SQL
+
+    UPDATE_USER = <<-SQL
+    UPDATE users
+    SET {FIELD}=$2
+    WHERE username=$1
+    SQL
   end
 end

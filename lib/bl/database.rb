@@ -49,5 +49,18 @@ module Bl
         [fullname, username, password, github, email, bio]
       )
     end
+
+    def update_user(username:, field:, value:)
+      # Refuse username change
+      return if field == 'username'
+      # Rehash password
+      value = Argon2::Password.create(value) if field == 'password'
+      # Construct query string
+      query = Queries::UPDATE_USER.gsub(/\{FIELD\}/, field)
+      # Prepare update query for database
+      @db.prepare("update_user:#{username}", query)
+      # Insert values and start execution
+      @db.exec_prepared("update_user:#{username}", [username, value])
+    end
   end
 end

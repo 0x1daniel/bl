@@ -23,13 +23,15 @@ module Bl
   module Tables
     USERS = <<-SQL
     CREATE TABLE IF NOT EXISTS users (
-      user_id bigserial primary key,
+      user_id bigserial NOT NULL,
       fullname varchar(100) NOT NULL,
-      username varchar(3) NOT NULL,
+      username varchar(10) NOT NULL,
       password varchar(100) NOT NULL,
       github varchar(30) NOT NULL,
       email varchar(100) NOT NULL,
-      bio varchar(140) NOT NULL
+      bio varchar(140) NOT NULL,
+      UNIQUE(username),
+      PRIMARY KEY(user_id)
     )
     SQL
   end

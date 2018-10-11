@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+require_relative '../lib/bl'
+
+# Get data
+print 'username: '
+username = gets.strip
+print 'field: '
+field = gets.strip
+print 'value: '
+value = gets.strip
+
+# Connect and insert
+db = Bl::Database.new
+db.update_user(username: username, field: field, value: value)
