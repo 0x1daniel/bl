@@ -19,35 +19,12 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
-require 'pg'
-require 'argon2'
-require_relative 'tables'
-require_relative 'queries'
+require 'yaml'
 
 module Bl
-  class Database
-    def initialize
-      # Load config values
-      config = Config.parse['postgresql']
-      # Connect to postgresql server
-      @db = PG.connect(
-        dbname: config['dbname'], host: config['host'], port: config['port'],
-        user: config['user'], password: config['password']
-      )
-      # Ensure users table existence
-      @db.exec Tables::USERS
-    end
-
-    def create_new_user(fullname:, username:, password:, github:, email:, bio:)
-      # Hash password
-      password = Argon2::Password.create password
-      # Prepare insert query for database
-      @db.prepare("new_user:#{username}", Queries::NEW_USER)
-      # Insert values and start execution
-      @db.exec_prepared(
-        "new_user:#{username}",
-        [fullname, username, password, github, email, bio]
-      )
+  module Config
+    def self.parse
+      YAML.load File.read(File.join(File.dirname(__FILE__), '../../bl.yml'))
     end
   end
 end
