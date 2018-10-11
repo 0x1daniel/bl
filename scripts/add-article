@@ -1,0 +1,23 @@
+#!/usr/bin/env ruby
+require_relative '../lib/bl'
+
+# Get data
+print 'author: '
+author = gets.strip
+print 'slug: '
+slug = gets.strip
+print 'title: '
+title = gets.strip
+print 'abstract: '
+abstract = gets.strip
+print 'content: '
+content = gets.strip
+print 'draft: '
+draft = (gets.strip == 'true')
+
+# Connect and insert
+db = Bl::Database.new
+db.create_new_article(
+  author: author, slug: slug, title: title, abstract: abstract,
+  content: content, draft: draft
+)

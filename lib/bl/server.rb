@@ -67,7 +67,11 @@ module Bl
 
     # GET routes
     get '/' do
-      erb :index
+      # Get article records
+      articles = db.get_articles_published
+      erb :index, :locals => {
+        articles: articles
+      }
     end
 
     get '/board' do
@@ -87,6 +91,15 @@ module Bl
       session.clear
       # Redirect
       redirect '/'
+    end
+
+    get '/board/articles' do
+      require_user
+      # Get article records
+      articles = db.get_articles_draft_or_published
+      erb :'board/articles/index', :layout => :'board/layout', :locals => {
+        articles: articles
+      }
     end
 
     # POST routes

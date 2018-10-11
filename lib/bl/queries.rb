@@ -41,5 +41,23 @@ module Bl
     SELECT * FROM users
     WHERE username=$1
     SQL
+
+    NEW_ARTICLE = <<-SQL
+    INSERT INTO articles(author, slug, title, abstract, content, is_draft)
+    VALUES ($1, $2, $3, $4, $5, $6)
+    SQL
+
+    GET_ARTICLES_PUBLISHED = <<-SQL
+    SELECT * FROM articles
+    WHERE is_draft='false'
+    ORDER BY created_date DESC
+    OFFSET $1 LIMIT $2
+    SQL
+
+    GET_ARTICLES_DRAFT_OR_PUBLISHED = <<-SQL
+    SELECT * FROM articles
+    ORDER BY created_date DESC
+    OFFSET $1 LIMIT $2
+    SQL
   end
 end

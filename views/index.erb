@@ -5,4 +5,8 @@
   </div>
 </cover>
 
-<h2>Hello World</h2>
+<% if articles %>
+  <% articles.each do |a| %>
+    <%= a['slug'] %>
+  <% end %>
+<% end %>

@@ -1,0 +1,7 @@
+<% if articles %>
+  <% articles.each do |a| %>
+    <%= a['slug'] %><br>
+  <% end %>
+<% else %>
+  <h2>no articles</h2>
+<% end %>

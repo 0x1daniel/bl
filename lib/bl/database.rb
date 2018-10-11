@@ -36,10 +36,12 @@ module Bl
       )
       # Ensure users table existence
       @db.exec Tables::USERS
+      # Ensure articles table existence
+      @db.exec Tables::ARTICLES
       # Ensure user queries to be prepared
-      @db.prepare("new_user", Queries::NEW_USER)
-      @db.prepare("get_user", Queries::GET_USER)
-      @db.prepare("delete_user:", Queries::DELETE_USER)
+      @db.prepare('new_user', Queries::NEW_USER)
+      @db.prepare('get_user', Queries::GET_USER)
+      @db.prepare('delete_user', Queries::DELETE_USER)
       # Prepare each update query option
       ['fullname', 'username', 'password', 'github', 'email', 'bio'].each do |f|
         # Construct query string
@@ -47,16 +49,19 @@ module Bl
         # Prepare query
         @db.prepare("update_user:#{f}", query)
       end
+      # Ensure articles queries to be prepared
+      @db.prepare('new_article', Queries::NEW_ARTICLE)
+      @db.prepare('get_articles_published', Queries::GET_ARTICLES_PUBLISHED)
+      @db.prepare('get_articles_draft_or_published', Queries::GET_ARTICLES_DRAFT_OR_PUBLISHED)
     end
 
+    # User functions
     def create_new_user(fullname:, username:, password:, github:, email:, bio:)
       # Hash password
       password = Argon2::Password.create password
-      # Prepare insert query for database
-      @db.prepare("new_user:#{username}", Queries::NEW_USER)
       # Insert values and start execution
       @db.exec_prepared(
-        "new_user:#{username}",
+        'new_user',
         [fullname, username, password, github, email, bio]
       )
     end
@@ -69,17 +74,39 @@ module Bl
     end
 
     def delete_user(username:)
-      # Prepare delete query for database
-      @db.prepare("delete_user:#{username}", Queries::DELETE_USER)
       # Insert values and start execution
-      @db.exec_prepared("delete_user:#{username}", [username])
+      @db.exec_prepared('delete_user', [username])
     end
 
     def get_user_by_username(username:)
       # Insert values and start execution
-      results = @db.exec_prepared("get_user", [username])
+      results = @db.exec_prepared('get_user', [username])
       # Return if an record has been found
       return results[0] if results.ntuples == 1
+    end
+
+    # Article functions
+    def create_new_article(author:, slug:, title:, abstract:, content:, draft:)
+      # Insert values and start execution
+      @db.exec_prepared(
+        'new_article', [author, slug, title, abstract, content, draft]
+      )
+    end
+
+    def get_articles_published(offset: 0, limit: 25)
+      # Insert values and start execution
+      results = @db.exec_prepared('get_articles_published', [offset, limit])
+      # Return if at least one record has been found
+      return results if results.ntuples > 0
+    end
+
+    def get_articles_draft_or_published(offset: 0, limit: 25)
+      # Insert values and start execution
+      results = @db.exec_prepared(
+        'get_articles_draft_or_published', [offset, limit]
+      )
+      # Return if at least one record has been found
+      return results if results.ntuples > 0
     end
   end
 end

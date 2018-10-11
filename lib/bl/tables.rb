@@ -34,5 +34,21 @@ module Bl
       PRIMARY KEY(user_id)
     )
     SQL
+
+    ARTICLES = <<-SQL
+    CREATE TABLE IF NOT EXISTS articles (
+      article_id bigserial NOT NULL,
+      author bigserial REFERENCES users(user_id) ON DELETE CASCADE,
+      slug varchar(60) NOT NULL,
+      title varchar(60) NOT NULL,
+      abstract text NOT NULL,
+      content text NOT NULL,
+      created_date integer DEFAULT extract(epoch from now() at time zone 'utc' at time zone 'utc'),
+      last_change integer DEFAULT extract(epoch from now() at time zone 'utc' at time zone 'utc'),
+      is_draft boolean DEFAULT 'true',
+      UNIQUE(slug),
+      PRIMARY KEY(article_id)
+    )
+    SQL
   end
 end
