@@ -54,6 +54,22 @@ footer * {
 /* = TYPOGRAPHY = */
 h2 { font-size: 1.8rem; }
 
+/* = COOKIE BANNER = */
+cookie-banner {
+  margin-top: 30px;
+  display: block;
+  width: 100%;
+  padding: 8px;
+  background-color: #212121;
+  text-align: center;
+}
+cookie-banner * {
+  color: #DDDDDD;
+}
+cookie-banner u {
+  cursor: pointer;
+}
+
 /* = COVER = */
 cover {
   display: block;

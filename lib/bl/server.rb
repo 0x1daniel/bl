@@ -61,6 +61,10 @@ module Bl
       send_file 'static/style.board.css'
     end
 
+    get '/assets/script.js' do
+      send_file 'static/script.js'
+    end
+
     # GET routes
     get '/' do
       erb :index
