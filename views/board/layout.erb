@@ -9,6 +9,9 @@
   <body>
     <header>
       <brand><%= config['name'] %> - board</brand>
+      <% if @flash %>
+        <%= @flash[:message] %>
+      <% end %>
     </header>
     <main>
       <%= yield %>

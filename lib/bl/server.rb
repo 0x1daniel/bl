@@ -43,7 +43,7 @@ module Bl
     # Middleware
     before do
       # Check if middleware is required
-      return if !request.path.start_with?('/board')
+      return unless request.path.start_with?('/board')
       # Read session values
       @auth = session[:auth]
       @user_id = session[:user_id] if @auth
@@ -68,6 +68,14 @@ module Bl
       erb :'board/login', :layout => :'board/layout'
     end
 
+    get '/board/logout' do
+      require_user
+      # Clear session
+      session.clear
+      # Redirect
+      redirect '/'
+    end
+
     # POST routes
     post '/board/login' do
       require_secret
@@ -76,12 +84,11 @@ module Bl
       username = params[:username]
       password = params[:password]
       # Check data
-      if !username.nil? && !password.nil?
+      unless username.nil? && password.nil?
         # Get database record
         user = db.get_user_by_username(username: username)
-        p user['password']
         # Check password
-        if !user.nil? && Argon2::Password.verify_password(password, user['password'])
+        if user && Argon2::Password.verify_password(password, user['password'])
           # Update session details
           session[:auth] = true
           session[:user_id] = user['user_id']
@@ -114,7 +121,7 @@ module Bl
     end
 
     def require_secret
-      redirect '/' if config['secret'] != params[:secret]
+      redirect '/' unless config['secret'] == params[:secret]
     end
 
     def require_guest
@@ -122,7 +129,7 @@ module Bl
     end
 
     def require_user
-      redirect '/' if !@auth
+      redirect '/' unless @auth
     end
   end
 end

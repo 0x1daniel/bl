@@ -24,6 +24,7 @@ require 'yaml'
 module Bl
   module Config
     def self.parse
+      # Load and return parsed yaml file
       YAML.load File.read(File.join(File.dirname(__FILE__), '../../bl.yml'))
     end
   end
