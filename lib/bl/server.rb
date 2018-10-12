@@ -109,10 +109,24 @@ module Bl
 
     get '/board/articles' do
       require_user
+      # Read page parameter
+      page = (params[:page]) ? params[:page].to_i : 0
+      # Read per page parameter
+      per_page = (params[:per_page]) ? params[:per_page].to_i : 25
       # Get article records
-      articles = db.get_articles_draft_or_published
+      articles = db.get_articles_draft_or_published(
+        offset: page * per_page, limit: per_page
+      )
+      # Get count of all articles
+      articles_count = db.get_articles_draft_or_published_count
+      # Generate pagination
+      pagination = Pagination.generate(
+        per_page: per_page, page: page, count: articles_count
+      )
       erb :'board/articles/index', :layout => :'board/layout', :locals => {
-        articles: articles
+        articles: articles,
+        page: page,
+        pagination: pagination
       }
     end
 

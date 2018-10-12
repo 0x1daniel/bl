@@ -54,6 +54,7 @@ module Bl
       @db.prepare('get_articles_published', Queries::GET_ARTICLES_PUBLISHED)
       @db.prepare('get_articles_draft_or_published', Queries::GET_ARTICLES_DRAFT_OR_PUBLISHED)
       @db.prepare('get_articles_published_count', Queries::GET_ARTICLES_PUBLISHED_COUNT)
+      @db.prepare('get_articles_draft_or_published_count', Queries::GET_ARTICLES_DRAFT_OR_PUBLISHED_COUNT)
     end
 
     # User functions
@@ -114,6 +115,13 @@ module Bl
     def get_articles_published_count
       # Start execution
       results = @db.exec_prepared('get_articles_published_count')
+      # Return single number
+      return results[0]['count'].to_i
+    end
+
+    def get_articles_draft_or_published_count
+      # Start execution
+      results = @db.exec_prepared('get_articles_draft_or_published_count')
       # Return single number
       return results[0]['count'].to_i
     end

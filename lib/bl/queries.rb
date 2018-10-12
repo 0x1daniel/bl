@@ -62,6 +62,11 @@ module Bl
 
     GET_ARTICLES_PUBLISHED_COUNT = <<-SQL
     SELECT COUNT(article_id) AS count FROM articles
+    WHERE is_draft='false'
+    SQL
+
+    GET_ARTICLES_DRAFT_OR_PUBLISHED_COUNT = <<-SQL
+    SELECT COUNT(article_id) AS count FROM articles
     SQL
   end
 end
