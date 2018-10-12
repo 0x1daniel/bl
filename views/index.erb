@@ -19,7 +19,8 @@
   <h4 pagination>pagination</h4>
   <ul pagination>
   <% pagination.each do |i| %>
-    <li><a href="?page=<%= i %>"><%= i %></a></li>
+    <% active = (i == page) ? 'active' : '' %>
+    <li <%= active %>><a href="?page=<%= i %>"><%= i %></a></li>
   <% end %>
   </ul>
 <% end %>

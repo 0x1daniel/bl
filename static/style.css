@@ -100,3 +100,6 @@ ul[pagination] li {
   display: inline-block;
   margin: 5px 10px;
 }
+ul[pagination] li[active] a {
+  color: #2979FF;
+}
