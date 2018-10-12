@@ -53,6 +53,7 @@ module Bl
       @db.prepare('new_article', Queries::NEW_ARTICLE)
       @db.prepare('get_articles_published', Queries::GET_ARTICLES_PUBLISHED)
       @db.prepare('get_articles_draft_or_published', Queries::GET_ARTICLES_DRAFT_OR_PUBLISHED)
+      @db.prepare('get_articles_published_count', Queries::GET_ARTICLES_PUBLISHED_COUNT)
     end
 
     # User functions
@@ -94,6 +95,7 @@ module Bl
     end
 
     def get_articles_published(offset: 0, limit: 25)
+      puts "from #{offset} to #{limit}"
       # Insert values and start execution
       results = @db.exec_prepared('get_articles_published', [offset, limit])
       # Return if at least one record has been found
@@ -107,6 +109,13 @@ module Bl
       )
       # Return if at least one record has been found
       return results if results.ntuples > 0
+    end
+
+    def get_articles_published_count
+      # Start execution
+      results = @db.exec_prepared('get_articles_published_count')
+      # Return single number
+      return results[0]['count'].to_i
     end
   end
 end

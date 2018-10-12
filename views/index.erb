@@ -1,12 +1,25 @@
+<% if page == 0 %>
 <cover index>
   <div>
     <h2>welcome to <%= config['name'] %></h2>
     <p><%= config['abstract']['long'] %></p>
   </div>
 </cover>
+<% end %>
 
 <% if articles %>
   <% articles.each do |a| %>
     <%= a['slug'] %>
   <% end %>
+<% else %>
+  <h2>no articles</h2>
+<% end %>
+
+<% if pagination %>
+  <h4 pagination>pagination</h4>
+  <ul pagination>
+  <% pagination.each do |i| %>
+    <li><a href="?page=<%= i %>"><%= i %></a></li>
+  <% end %>
+  </ul>
 <% end %>

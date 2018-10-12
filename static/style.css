@@ -53,6 +53,12 @@ footer * {
 
 /* = TYPOGRAPHY = */
 h2 { font-size: 1.8rem; }
+h4 { font-size: 1.2rem; }
+h4[pagination] {
+  margin-top: 20px;
+  text-align: center;
+  display: block;
+}
 
 /* = COOKIE BANNER = */
 cookie-banner {
@@ -81,4 +87,16 @@ cover {
 cover[index] {
   border-bottom: 1px solid #DDDDDD;
   margin-bottom: 30px;
+}
+
+/* = LISTS = */
+ul[pagination] {
+  list-style: none;
+  display: block;
+  padding: 10px;
+  text-align: center;
+}
+ul[pagination] li {
+  display: inline-block;
+  margin: 5px 10px;
 }

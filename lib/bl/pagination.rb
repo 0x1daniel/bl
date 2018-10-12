@@ -20,48 +20,16 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 module Bl
-  module Queries
-    NEW_USER = <<-SQL
-    INSERT INTO users(fullname, username, password, github, email, bio)
-    VALUES ($1, $2, $3, $4, $5, $6)
-    SQL
-
-    UPDATE_USER = <<-SQL
-    UPDATE users
-    SET {FIELD}=$2
-    WHERE username=$1
-    SQL
-
-    DELETE_USER = <<-SQL
-    DELETE FROM users
-    WHERE username=$1
-    SQL
-
-    GET_USER = <<-SQL
-    SELECT * FROM users
-    WHERE username=$1
-    SQL
-
-    NEW_ARTICLE = <<-SQL
-    INSERT INTO articles(author, slug, title, abstract, content, is_draft)
-    VALUES ($1, $2, $3, $4, $5, $6)
-    SQL
-
-    GET_ARTICLES_PUBLISHED = <<-SQL
-    SELECT * FROM articles
-    WHERE is_draft='false'
-    ORDER BY created_date DESC
-    OFFSET $1 LIMIT $2
-    SQL
-
-    GET_ARTICLES_DRAFT_OR_PUBLISHED = <<-SQL
-    SELECT * FROM articles
-    ORDER BY created_date DESC
-    OFFSET $1 LIMIT $2
-    SQL
-
-    GET_ARTICLES_PUBLISHED_COUNT = <<-SQL
-    SELECT COUNT(article_id) AS count FROM articles
-    SQL
+  module Pagination
+    def self.generate(per_page:, page:, count:)
+      # Pagination only required for more than 1 page
+      return if count <= per_page
+      pagination = []
+      # Generate list of numbers
+      (count.to_f / per_page).ceil.times do |i|
+        pagination << i
+      end
+      return pagination
+    end
   end
 end

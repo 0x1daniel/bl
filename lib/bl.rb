@@ -21,6 +21,7 @@
 # SOFTWARE.
 require_relative 'bl/config'
 require_relative 'bl/database'
+require_relative 'bl/pagination'
 require_relative 'bl/server'
 
 module Bl

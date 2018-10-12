@@ -1,0 +1,25 @@
+#!/usr/bin/env ruby
+require_relative '../lib/bl'
+require 'securerandom'
+
+# Ask for data
+print 'amount: '
+amount = gets.strip.to_i
+print 'author: '
+author = gets.strip
+
+# Connect to database
+db = Bl::Database.new
+amount.times do |i|
+  # Generate data
+  slug = SecureRandom.hex 8
+  title = SecureRandom.hex 16
+  abstract = SecureRandom.hex 140
+  content = SecureRandom.hex 500
+  draft = false
+  # Insert into database
+  db.create_new_article(
+    author: author, slug: slug, title: title, abstract: abstract,
+    content: content, draft: draft
+  )
+end
