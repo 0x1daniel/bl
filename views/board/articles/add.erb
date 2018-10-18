@@ -1,0 +1,57 @@
+<a href="/board/articles">Back</a>
+
+<br><br>
+
+<form article-add action="/board/articles?secret=<%= config['secrets']['access'] %>" method="post">
+  <% unless previous_article %>
+  <form-group>
+    <label for="i-slug">slug</label>
+    <input type="text" id="i-slug" name="slug" placeholder="slug" required autofocus>
+  </form-group>
+  <form-group>
+    <label for="i-title">title</label>
+    <input type="text" id="i-title" name="title" placeholder="title" required>
+  </form-group>
+  <form-group>
+    <label for="i-abstract">abstract</label>
+    <textarea id="i-abstract" name="abstract" placeholder="abstract" required></textarea>
+  </form-group>
+  <form-group checkbox>
+    <label for="i-draft">draft</label>
+    <p>
+      <input type="checkbox" id="i-draft" name="draft"> is this article in draft?
+    </p>
+  </form-group>
+  <form-group>
+    <label for="i-content">content</label>
+    <textarea id="i-content" name="content" placeholder="content" required></textarea>
+  </form-group>
+  <% else %>
+  <a href="/board/articles/clear_previous">Clear fields</a>
+  <form-group>
+    <label for="i-slug">slug</label>
+    <input type="text" id="i-slug" name="slug" placeholder="slug" value="<%= previous_article[:slug] %>" required>
+  </form-group>
+  <form-group>
+    <label for="i-title">title</label>
+    <input type="text" id="i-title" name="title" placeholder="title" value="<%= previous_article[:title] %>" required>
+  </form-group>
+  <form-group>
+    <label for="i-abstract">abstract</label>
+    <textarea id="i-abstract" name="abstract" placeholder="abstract" required><%= previous_article[:abstract] %></textarea>
+  </form-group>
+  <form-group checkbox>
+    <label for="i-draft">draft</label>
+    <p>
+      <input type="checkbox" id="i-draft" name="draft" checked="<%= previous_article[:draft] ? 'on' : 'off' %>"> is this article in draft?
+    </p>
+  </form-group>
+  <form-group>
+    <label for="i-content">content</label>
+    <textarea id="i-content" name="content" placeholder="content" required><%= previous_article[:content] %></textarea>
+  </form-group>
+  <% end %>
+  <form-footer>
+    <button type="submit">publish</button>
+  </form-footer>
+</form>

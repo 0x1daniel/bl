@@ -9,7 +9,8 @@
 
 <% if articles %>
   <% articles.each do |a| %>
-    <%= a['slug'] %>
+    <h4><%= a['title'] %></h4>
+    <a href="/article/<%= a['slug'] %>">Read more...</a><br>
   <% end %>
 <% else %>
   <h2>no articles</h2>

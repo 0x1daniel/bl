@@ -12,8 +12,14 @@
   <body>
     <header>
       <brand><%= config['name'] %> - board</brand>
+      <ul nav>
+        <li><a href="/board">overview</a></li>
+        <li><a href="/board/articles">articles</a></li>
+      </ul>
       <% if @flash %>
-        <%= @flash[:message] %>
+        <flash <%= @flash[:type] %>>
+          <p><%= @flash[:message] %></p>
+        </flash>
       <% end %>
     </header>
     <main>

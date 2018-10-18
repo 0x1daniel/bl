@@ -10,7 +10,7 @@ accent: #2979FF
 
 /* = RESET = */
 * {
-  font-family: 'Courier New', Courier, monospace;
+  font-family: monospace;
   font-size: 1rem;
   color: #212121;
 
@@ -102,4 +102,29 @@ ul[pagination] li {
 }
 ul[pagination] li[active] a {
   color: #2979FF;
+}
+ul[nav] li {
+  display: inline-block;
+  margin: 10px 15px;
+}
+
+/* = ARTICLE = */
+article {}
+article h2 {}
+article information {}
+article abstract {
+  display: block;
+  max-width: 400px;
+  text-align: center;
+  margin: 20px auto;
+}
+article hr {
+  height: 1px;
+  width: 70%;
+  margin: 15px auto;
+  background-color: #DDDDDD;
+  border: none;
+}
+article content {
+  text-align: justify;
 }

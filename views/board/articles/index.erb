@@ -1,6 +1,10 @@
+<a href="/board/articles/add">New Article</a>
+
+<br><br>
+
 <% if articles %>
   <% articles.each do |a| %>
-    <%= a['slug'] %><br>
+    <a href="/board/article/<%= a['slug'] %>"><%= a['title'] %></a><br>
   <% end %>
 <% else %>
   <h2>no articles</h2>

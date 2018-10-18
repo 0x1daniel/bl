@@ -55,6 +55,8 @@ module Bl
       @db.prepare('get_articles_draft_or_published', Queries::GET_ARTICLES_DRAFT_OR_PUBLISHED)
       @db.prepare('get_articles_published_count', Queries::GET_ARTICLES_PUBLISHED_COUNT)
       @db.prepare('get_articles_draft_or_published_count', Queries::GET_ARTICLES_DRAFT_OR_PUBLISHED_COUNT)
+      @db.prepare('get_article_draft_or_published_by_slug', Queries::GET_ARTICLE_DRAFT_OR_PUBLISHED_BY_SLUG)
+      @db.prepare('get_article_published_by_slug', Queries::GET_ARTICLE_PUBLISHED_BY_SLUG)
     end
 
     # User functions
@@ -93,6 +95,25 @@ module Bl
       @db.exec_prepared(
         'new_article', [author, slug, title, abstract, content, draft]
       )
+    end
+
+    def get_article_draft_or_published_by_slug(slug:)
+      # Insert values and start execution
+      results = @db.exec_prepared(
+        'get_article_draft_or_published_by_slug', [slug]
+      )
+      p results[0]
+      # Return if an record has been found
+      return results[0] if results.ntuples == 1
+    end
+
+    def get_article_published_by_slug(slug:)
+      # Insert values and start execution
+      results = @db.exec_prepared(
+        'get_article_published_by_slug', [slug]
+      )
+      # Return if an record has been found
+      return results[0] if results.ntuples == 1
     end
 
     def get_articles_published(offset: 0, limit: 25)

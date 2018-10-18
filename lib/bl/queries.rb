@@ -47,6 +47,16 @@ module Bl
     VALUES ($1, $2, $3, $4, $5, $6)
     SQL
 
+    GET_ARTICLE_DRAFT_OR_PUBLISHED_BY_SLUG = <<-SQL
+    SELECT articles.*,users.fullname FROM articles, users
+    WHERE slug=$1 AND user_id=author
+    SQL
+
+    GET_ARTICLE_PUBLISHED_BY_SLUG = <<-SQL
+    SELECT articles.*,users.fullname FROM articles, users
+    WHERE slug=$1 AND is_draft='false' AND user_id=author
+    SQL
+
     GET_ARTICLES_PUBLISHED = <<-SQL
     SELECT * FROM articles
     WHERE is_draft='false'

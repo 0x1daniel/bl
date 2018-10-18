@@ -88,6 +88,14 @@ module Bl
       }
     end
 
+    get '/article/:slug' do |slug|
+      # Get article record
+      article = db.get_article_published_by_slug(slug: slug)
+      erb :'article/index', :locals => {
+        article: article
+      }
+    end
+
     get '/board' do
       require_user
       erb :'board/index', :layout => :'board/layout'
@@ -105,6 +113,15 @@ module Bl
       session.clear
       # Redirect
       redirect '/'
+    end
+
+    get '/board/article/:slug' do |slug|
+      require_user
+      # Get article record
+      article = db.get_article_draft_or_published_by_slug(slug: slug)
+      erb :'board/article/index', :layout => :'board/layout', :locals => {
+        article: article
+      }
     end
 
     get '/board/articles' do
@@ -130,6 +147,20 @@ module Bl
       }
     end
 
+    get '/board/articles/add' do
+      require_user
+      erb :'board/articles/add', :layout => :'board/layout', :locals => {
+        previous_article: session[:article]
+      }
+    end
+
+    get '/board/articles/clear_previous' do
+      require_user
+      # Clear previous article from session
+      session[:article] = nil
+      redirect '/board/articles/add'
+    end
+
     # POST routes
     post '/board/login' do
       require_secret
@@ -138,7 +169,7 @@ module Bl
       username = params[:username]
       password = params[:password]
       # Check data
-      unless username.nil? && password.nil?
+      unless username.nil? || password.nil?
         # Get database record
         user = db.get_user_by_username(username: username)
         # Check password
@@ -154,6 +185,39 @@ module Bl
       # New error flash message
       new_flash 'error', 'wrong credentials'
       redirect "/board/login?secret=#{config['secret']}"
+    end
+
+    post '/board/articles' do
+      require_secret
+      require_user
+      # Get body data
+      slug = params[:slug]
+      title = params[:title]
+      abstract = params[:abstract]
+      content = params[:content]
+      draft = (params[:draft] == 'on')
+      # Check data
+      unless slug.nil? || title.nil? || abstract.nil? || content.nil?
+        # Insert article into database
+        db.create_new_article(
+          author: session[:user_id], slug: slug, title: title,
+          abstract: abstract, content: content, draft: draft
+        )
+        # New flash
+        new_flash 'success', 'article published'
+        # Redirect
+        redirect '/board/articles'
+        return
+      end
+      # New error flash
+      new_flash 'error', 'wrong article details'
+      # Store old article details in session
+      session[:article] = {
+        slug: slug, title: title, abstract: abstract, content: content,
+        draft: draft
+      }
+      # Redirect
+      redirect '/board/articles/add'
     end
 
     # Class internal helper functions

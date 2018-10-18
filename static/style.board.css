@@ -5,6 +5,8 @@
 text: #212121
 muted: #DDDDDD
 accent: #FFC400
+error: #F44336
+success: #00E676
 
 */
 
@@ -23,10 +25,19 @@ form[login] {
 
   max-width: 300px;
 }
+form[article-add] {
+  margin: 0 auto;
+  padding: 30px;
+
+  max-width: 700px;
+}
 
 form-group {
   padding: 10px 0;
   display: block;
+}
+form-group[checkbox] p {
+  text-align: center;
 }
 
 form-footer {
@@ -36,7 +47,7 @@ form-footer {
 }
 
 /* = INPUT = */
-input {
+input, textarea {
   padding: 3px 8px;
   margin: 10px 0;
   border: none;
@@ -44,9 +55,20 @@ input {
   outline: none;
   display: block;
   width: 100%;
+
+  transition: border-bottom-color .1s;
 }
-input:hover { border-bottom-color: #212121; }
-input:focus { border-bottom-color: #FFC400; }
+input:hover, textarea:hover { border-bottom-color: #212121; }
+input:focus, textarea:focus { border-bottom-color: #FFC400; }
+input[type="checkbox"] {
+  display: inline-block !important;
+  width: auto;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 80px;
+}
 
 /* BUTTON */
 button {
@@ -82,4 +104,21 @@ button[type="submit"] {
 /* = LISTS = */
 ul[pagination] li[active] a {
   color: #FFC400;
+}
+
+/* = FLASH = */
+flash {
+  display: block;
+  padding: 5px 25px;
+  margin-top: 15px;
+  text-align: center;
+}
+flash[error] {
+  background-color: #F44336;
+}
+flash[success] {
+  background-color: #00E676;
+}
+flash[error] *, flash[success] * {
+  color: #FFFFFF;
 }
