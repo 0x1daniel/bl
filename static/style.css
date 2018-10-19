@@ -18,6 +18,7 @@ accent: #2979FF
   margin: 0;
 
   box-sizing: border-box;
+  word-break: break-all;
 }
 
 html {
@@ -142,8 +143,18 @@ articles-list {
   margin: 20px auto;
   max-width: 500px;
 }
+articles-list hr {
+  height: 1px;
+  width: 40%;
+  margin: 20px auto;
+  display: block;
+  background-color: #DDDDDD;
+  border: none;
+}
 articles-list article-overview {
+  display: block;
   cursor: pointer;
+  margin: 40px 0;
 }
 articles-list article-overview > * {
   display: block;

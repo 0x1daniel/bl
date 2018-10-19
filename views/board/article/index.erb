@@ -3,12 +3,13 @@
 <br><br>
 
 <article>
-  <h2><%= article['title'] %></h2>
-  <information>
-    <author>
-      by <%= article['fullname'] %>
-    </author>
-  </information>
+  <h4>
+    <%= article['title'] %>
+    <information>
+      by <author><%= article['fullname'] %></author>
+      on <timestamp><%= Time.at(article['created_date'].to_i).strftime('%m/%d/%y') %></timestamp>
+    </information>
+  </h4>
   <abstract><%= article['abstract'] %></abstract>
   <hr>
   <content><%= article['content'] %></content>

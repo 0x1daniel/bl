@@ -116,15 +116,14 @@ module Bl
       return results[0] if results.ntuples == 1
     end
 
-    def get_articles_published(offset: 0, limit: 25)
-      puts "from #{offset} to #{limit}"
+    def get_articles_published(offset: 0, limit: 10)
       # Insert values and start execution
       results = @db.exec_prepared('get_articles_published', [offset, limit])
       # Return if at least one record has been found
       return results if results.ntuples > 0
     end
 
-    def get_articles_draft_or_published(offset: 0, limit: 25)
+    def get_articles_draft_or_published(offset: 0, limit: 10)
       # Insert values and start execution
       results = @db.exec_prepared(
         'get_articles_draft_or_published', [offset, limit]

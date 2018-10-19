@@ -70,7 +70,7 @@ module Bl
       # Read page parameter
       page = (params[:page]) ? params[:page].to_i : 0
       # Read per page parameter
-      per_page = (params[:per_page]) ? params[:per_page].to_i : 25
+      per_page = (params[:per_page]) ? params[:per_page].to_i : 10
       # Get article records
       articles = db.get_articles_published(
         offset: page * per_page, limit: per_page
@@ -129,7 +129,7 @@ module Bl
       # Read page parameter
       page = (params[:page]) ? params[:page].to_i : 0
       # Read per page parameter
-      per_page = (params[:per_page]) ? params[:per_page].to_i : 25
+      per_page = (params[:per_page]) ? params[:per_page].to_i : 10
       # Get article records
       articles = db.get_articles_draft_or_published(
         offset: page * per_page, limit: per_page

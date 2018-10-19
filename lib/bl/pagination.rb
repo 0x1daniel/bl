@@ -25,9 +25,22 @@ module Bl
       # Pagination only required for more than 1 page
       return if count <= per_page
       pagination = []
+      page_count = (count.to_f / per_page).ceil;
       # Generate list of numbers
-      (count.to_f / per_page).ceil.times do |i|
+      page_count.times do |i|
         pagination << i
+      end
+      # Delete pagination elements
+      if page_count > 10
+        if page - 3 > 2
+          pagination.slice! 2..(page - 3)
+          pagination.insert 2, '...'
+        end
+        if page + 6 < page_count
+          page_with_padding = pagination.index(page) + 2
+          pagination.slice! page_with_padding..(pagination.length - 4)
+          pagination.insert page_with_padding, '...'
+        end
       end
       return pagination
     end

@@ -14,12 +14,13 @@
     <h4>
       <%= a['title'] %>
       <information>
-        <author>by <%= a['fullname'] %></author>
-        <timestamp>on <%= Time.at(a['created_date'].to_i).strftime('%m/%d/%y') %></timestamp>
+        by <author><%= a['fullname'] %></author>
+        on <timestamp><%= Time.at(a['created_date'].to_i).strftime('%m/%d/%y') %></timestamp>
       </information>
     </h4>
     <abstract><%= a['abstract'] %></abstract>
   </article-overview>
+  <hr>
   <% end %>
 </articles-list>
 <% else %>

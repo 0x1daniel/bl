@@ -6,8 +6,8 @@
   <h4>
     <%= article['title'] %>
     <information>
-      <author>by <%= article['fullname'] %></author>
-      <timestamp>on <%= Time.at(article['created_date'].to_i).strftime('%m/%d/%y') %></timestamp>
+      by <author><%= article['fullname'] %></author>
+      on <timestamp><%= Time.at(article['created_date'].to_i).strftime('%m/%d/%y') %></timestamp>
     </information>
   </h4>
   <abstract><%= article['abstract'] %></abstract>
