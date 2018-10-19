@@ -53,7 +53,7 @@ footer * {
 
 /* = TYPOGRAPHY = */
 h2 { font-size: 1.8rem; }
-h4 { font-size: 1.2rem; }
+h4 { font-size: 1.4rem; }
 h4[pagination] {
   margin-top: 20px;
   text-align: center;
@@ -109,14 +109,21 @@ ul[nav] li {
 }
 
 /* = ARTICLE = */
-article {}
-article h2 {}
-article information {}
+article h4 * {
+  font-weight: normal;
+  font-size: .9rem;
+  display: inline-block;
+}
+article h4 information {
+  overflow: auto;
+  white-space: nowrap;
+}
 article abstract {
   display: block;
   max-width: 400px;
-  text-align: center;
+  text-align: justify;
   margin: 20px auto;
+  font-family: serif;
 }
 article hr {
   height: 1px;
@@ -127,4 +134,33 @@ article hr {
 }
 article content {
   text-align: justify;
+}
+
+/* = ARTICLES LIST = */
+articles-list {
+  display: block;
+  margin: 20px auto;
+  max-width: 500px;
+}
+articles-list article-overview {
+  cursor: pointer;
+}
+articles-list article-overview > * {
+  display: block;
+}
+articles-list article-overview h4 {
+  margin-bottom: 15px;
+}
+articles-list article-overview h4 * {
+  font-weight: normal;
+  font-size: .9rem;
+  display: inline-block;
+}
+articles-list article-overview h4 information {
+  overflow: auto;
+  white-space: nowrap;
+}
+articles-list article-overview abstract {
+  text-align: justify;
+  font-family: serif;
 }

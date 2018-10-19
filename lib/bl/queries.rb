@@ -58,14 +58,15 @@ module Bl
     SQL
 
     GET_ARTICLES_PUBLISHED = <<-SQL
-    SELECT * FROM articles
-    WHERE is_draft='false'
+    SELECT *,users.fullname FROM articles, users
+    WHERE is_draft='false' AND user_id=author
     ORDER BY created_date DESC
     OFFSET $1 LIMIT $2
     SQL
 
     GET_ARTICLES_DRAFT_OR_PUBLISHED = <<-SQL
-    SELECT * FROM articles
+    SELECT *,users.fullname FROM articles, users
+    WHERE user_id=author
     ORDER BY created_date DESC
     OFFSET $1 LIMIT $2
     SQL

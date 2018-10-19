@@ -8,10 +8,20 @@
 <% end %>
 
 <% if articles %>
+<articles-list>
   <% articles.each do |a| %>
-    <h4><%= a['title'] %></h4>
-    <a href="/article/<%= a['slug'] %>">Read more...</a><br>
+  <article-overview onclick="window.location.href = '/article/<%= a['slug'] %>'">
+    <h4>
+      <%= a['title'] %>
+      <information>
+        <author>by <%= a['fullname'] %></author>
+        <timestamp>on <%= Time.at(a['created_date'].to_i).strftime('%m/%d/%y') %></timestamp>
+      </information>
+    </h4>
+    <abstract><%= a['abstract'] %></abstract>
+  </article-overview>
   <% end %>
+</articles-list>
 <% else %>
   <h2>no articles</h2>
 <% end %>
