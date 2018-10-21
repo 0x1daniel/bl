@@ -1,4 +1,4 @@
-<a href="<%= back %>">Back</a>
+<a href="<%= back_url %>">Back</a>
 
 <br><br>
 
@@ -8,6 +8,7 @@
     <information>
       by <author><%= article['fullname'] %></author>
       on <timestamp><%= Time.at(article['created_date'].to_i).strftime('%m/%d/%y') %></timestamp>
+      is <%= (article['is_draft'] == 'f') ? 'published' : 'drafted' %>
     </information>
   </h4>
   <abstract><%= article['abstract'] %></abstract>

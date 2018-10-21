@@ -92,7 +92,8 @@ module Bl
       # Get article record
       article = db.get_article_published_by_slug(slug: slug)
       erb :'article/index', :locals => {
-        article: article
+        article: article,
+        back_url: (back == to("/article/#{article['slug']}")) ? '/' : back
       }
     end
 
@@ -120,8 +121,29 @@ module Bl
       # Get article record
       article = db.get_article_draft_or_published_by_slug(slug: slug)
       erb :'board/article/index', :layout => :'board/layout', :locals => {
-        article: article
+        article: article,
+        back_url: (back == to("/board/article/#{article['slug']}")) ? '/board/articles' : back
       }
+    end
+
+    get '/board/article/:slug/make_publish' do |slug|
+      require_user
+      # Update article record
+      db.update_article_is_published slug: slug
+      # New flash message
+      new_flash 'success', 'article published'
+      # Redirect
+      redirect "/board/article/#{slug}"
+    end
+
+    get '/board/article/:slug/make_draft' do |slug|
+      require_user
+      # Update article record
+      db.update_article_is_draft slug: slug
+      # New flash message
+      new_flash 'success', 'article drafted'
+      # Redirect
+      redirect "/board/article/#{slug}"
     end
 
     get '/board/articles' do

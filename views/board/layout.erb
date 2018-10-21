@@ -12,10 +12,12 @@
   <body>
     <header>
       <brand><%= config['name'] %> - board</brand>
+      <% if @auth %>
       <ul nav>
         <li><a href="/board">overview</a></li>
         <li><a href="/board/articles">articles</a></li>
       </ul>
+      <% end %>
       <% if @flash %>
         <flash <%= @flash[:type] %>>
           <p><%= @flash[:message] %></p>

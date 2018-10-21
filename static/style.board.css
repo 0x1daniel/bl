@@ -122,3 +122,17 @@ flash[success] {
 flash[error] *, flash[success] * {
   color: #FFFFFF;
 }
+
+/* = ARTICLES TABLE = */
+table[articles] {
+  width: 100%;
+  border-collapse: collapse;
+}
+table[articles] th, table[articles] td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #DDDDDD;
+}
+table[articles] td[article-title] {
+  cursor: pointer;
+}

@@ -3,9 +3,28 @@
 <br><br>
 
 <% if articles %>
+<table articles>
+  <tr>
+    <th>title</th>
+    <th>created at</th>
+    <th>draft</th>
+    <th>actions</th>
+  </tr>
   <% articles.each do |a| %>
-    <a href="/board/article/<%= a['slug'] %>"><%= a['title'] %></a><br>
+  <tr>
+    <td article-title onclick="window.location.href = '/board/article/<%= a['slug'] %>'"><%= a['title'] %></td>
+    <td><%= Time.at(a['created_date'].to_i).strftime('%m/%d/%y') %></td>
+    <td><%= (a['is_draft'] == 'f') ? 'false' : 'true' %></td>
+    <td>
+      <% if a['is_draft'] == 't' %>
+      <a href="/board/article/<%= a['slug'] %>/make_publish">Publish</a>
+      <% else %>
+      <a href="/board/article/<%= a['slug'] %>/make_draft">Draft</a>
+      <% end %>
+    </td>
+  </tr>
   <% end %>
+</table>
 <% else %>
   <h2>no articles</h2>
 <% end %>

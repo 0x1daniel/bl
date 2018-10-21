@@ -79,5 +79,17 @@ module Bl
     GET_ARTICLES_DRAFT_OR_PUBLISHED_COUNT = <<-SQL
     SELECT COUNT(article_id) AS count FROM articles
     SQL
+
+    UPDATE_ARTICLE_IS_PUBLISHED = <<-SQL
+    UPDATE articles
+    SET is_draft='false'
+    WHERE slug=$1
+    SQL
+
+    UPDATE_ARTICLE_IS_DRAFT = <<-SQL
+    UPDATE articles
+    SET is_draft='true'
+    WHERE slug=$1
+    SQL
   end
 end
