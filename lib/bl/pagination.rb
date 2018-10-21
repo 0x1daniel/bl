@@ -33,8 +33,8 @@ module Bl
       # Delete pagination elements
       if page_count > 10
         if page - 3 > 2
-          pagination.slice! 2..(page - 3)
-          pagination.insert 2, '...'
+          pagination.slice! 3..(page - 3)
+          pagination.insert 3, '...'
         end
         if page + 6 < page_count
           page_with_padding = pagination.index(page) + 2
