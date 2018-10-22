@@ -15,6 +15,20 @@ html {
   border-top-color: #FFC400;
 }
 
+/* = HELPERS = */
+*[float-right] { float: right; }
+
+/* = NAVIGATION = */
+nav[small] {
+  list-style: none;
+  display: block;
+  width: 100%;
+}
+nav[small] li {
+  display: inline-block;
+  margin: 5px 15px;
+}
+
 /* = FORMS = */
 form {
   padding: 20px;

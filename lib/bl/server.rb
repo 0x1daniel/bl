@@ -92,7 +92,7 @@ module Bl
       # Get article record
       article = db.get_article_published_by_slug(slug: slug)
       # 404 if article not found
-      error 404 if article.nil?
+      article_not_found if article.nil?
       erb :'article/index', :locals => {
         article: article,
         back_url: (back == to("/article/#{article['slug']}")) ? '/' : back
@@ -123,7 +123,7 @@ module Bl
       # Get article record
       article = db.get_article_draft_or_published_by_slug(slug: slug)
       # 404 if article not found
-      error 404 if article.nil?
+      article_not_found if article.nil?
       erb :'board/article/index', :layout => :'board/layout', :locals => {
         article: article,
         back_url: (back.end_with?(to("/board/article/#{article['slug']}/edit"))) ? '/board/articles' : back
@@ -135,7 +135,7 @@ module Bl
       # Get article record
       article = db.get_article_draft_or_published_by_slug(slug: slug)
       # 404 if article not found
-      error 404 if article.nil?
+      article_not_found if article.nil?
       erb :'board/article/edit', :layout => :'board/layout', :locals => {
         article: article,
         previous_article: session["article_edit:#{slug}"],
@@ -168,6 +168,17 @@ module Bl
       new_flash 'success', 'article drafted'
       # Redirect
       redirect "/board/article/#{slug}"
+    end
+
+    get '/board/article/:slug/delete' do |slug|
+      require_secret
+      require_user
+      # Delete article from database
+      db.delete_article_by_slug(slug: slug)
+      # New flash message
+      new_flash 'success', 'article deleted'
+      # Redirect
+      redirect '/board/articles'
     end
 
     get '/board/articles' do
@@ -243,7 +254,7 @@ module Bl
       content = params[:content]
       draft = (params[:draft] == 'on')
       # Check data
-      unless slug.nil? || title.nil? || abstract.nil? || content.nil?
+      unless slug.empty? || title.empty? || abstract.empty? || content.empty?
         # Reset temporary article add storage
         session['article_add'] = nil
         # Insert article into database
@@ -278,7 +289,7 @@ module Bl
       content = params[:content]
       draft = (params[:draft] == 'on')
       # Check data
-      unless slug.nil? || title.nil? || abstract.nil? || content.nil?
+      unless slug.empty? || title.empty? || abstract.empty? || content.empty?
         # Reset temporary article edit storage
         session["article_edit:#{slug}"] = nil
         # Update article in database
@@ -333,12 +344,20 @@ module Bl
       redirect '/' unless @auth
     end
 
-    error 404 do
+    def article_not_found
       if @auth
         new_flash 'error', 'article does not exist'
         redirect '/board/articles'
       else
         erb :'error/article_not_found'
+      end
+    end
+
+    error 404 do
+      if @auth
+        erb :'error/404', :layout => :'board/layout'
+      else
+        erb :'error/404'
       end
     end
   end

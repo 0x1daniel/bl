@@ -97,5 +97,10 @@ module Bl
     SET is_draft='true'
     WHERE slug=$1
     SQL
+
+    DELETE_ARTICLE_BY_SLUG = <<-SQL
+    DELETE FROM articles
+    WHERE slug=$1
+    SQL
   end
 end

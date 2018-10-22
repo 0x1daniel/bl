@@ -1,6 +1,9 @@
-<a href="/board/articles">Back</a>
-
-<br><br>
+<nav small>
+  <li><a href="/board/articles">Back</a></li>
+  <% if previous_article %>
+  <li float-right><a href="/board/articles/clear_previous">Clear fields</a></li>
+  <% end %>
+</nav>
 
 <form article-add action="/board/articles?secret=<%= config['secrets']['access'] %>" method="post">
   <% unless previous_article %>
@@ -27,7 +30,6 @@
     <textarea id="i-content" name="content" placeholder="content" required></textarea>
   </form-group>
   <% else %>
-  <a href="/board/articles/clear_previous">Clear fields</a>
   <form-group>
     <label for="i-slug">slug</label>
     <input type="text" id="i-slug" name="slug" placeholder="slug" value="<%= previous_article[:slug] %>" required>

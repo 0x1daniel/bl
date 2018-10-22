@@ -60,6 +60,7 @@ module Bl
       @db.prepare('update_article', Queries::UPDATE_ARTICLE)
       @db.prepare('update_article_is_published', Queries::UPDATE_ARTICLE_IS_PUBLISHED)
       @db.prepare('update_article_is_draft', Queries::UPDATE_ARTICLE_IS_DRAFT)
+      @db.prepare('delete_article_by_slug', Queries::DELETE_ARTICLE_BY_SLUG)
     end
 
     # User functions
@@ -164,6 +165,11 @@ module Bl
     def update_article_is_draft(slug:)
       # Insert values and start execution
       @db.exec_prepared('update_article_is_draft', [slug])
+    end
+
+    def delete_article_by_slug(slug:)
+      # Insert values and start execution
+      @db.exec_prepared('delete_article_by_slug', [slug])
     end
   end
 end
