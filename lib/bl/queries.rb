@@ -80,6 +80,12 @@ module Bl
     SELECT COUNT(article_id) AS count FROM articles
     SQL
 
+    UPDATE_ARTICLE = <<-SQL
+    UPDATE articles
+    SET author=$1,slug=$2,title=$3,abstract=$4,content=$5,is_draft=$6
+    WHERE slug=$7
+    SQL
+
     UPDATE_ARTICLE_IS_PUBLISHED = <<-SQL
     UPDATE articles
     SET is_draft='false'

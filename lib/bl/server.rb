@@ -91,6 +91,8 @@ module Bl
     get '/article/:slug' do |slug|
       # Get article record
       article = db.get_article_published_by_slug(slug: slug)
+      # 404 if article not found
+      error 404 if article.nil?
       erb :'article/index', :locals => {
         article: article,
         back_url: (back == to("/article/#{article['slug']}")) ? '/' : back
@@ -120,10 +122,32 @@ module Bl
       require_user
       # Get article record
       article = db.get_article_draft_or_published_by_slug(slug: slug)
+      # 404 if article not found
+      error 404 if article.nil?
       erb :'board/article/index', :layout => :'board/layout', :locals => {
         article: article,
-        back_url: (back == to("/board/article/#{article['slug']}")) ? '/board/articles' : back
+        back_url: (back.end_with?(to("/board/article/#{article['slug']}/edit"))) ? '/board/articles' : back
       }
+    end
+
+    get '/board/article/:slug/edit' do |slug|
+      require_user
+      # Get article record
+      article = db.get_article_draft_or_published_by_slug(slug: slug)
+      # 404 if article not found
+      error 404 if article.nil?
+      erb :'board/article/edit', :layout => :'board/layout', :locals => {
+        article: article,
+        previous_article: session["article_edit:#{slug}"],
+        back_url: (back == to("/board/article/#{article['slug']}/edit")) ? "/board/article/#{article['slug']}" : back
+      }
+    end
+
+    get '/board/article/:slug/clear_edits' do |slug|
+      require_user
+      # Clear previous edits of article from session
+      session["article_edit:#{slug}"] = nil
+      redirect "/board/article/#{slug}/edit"
     end
 
     get '/board/article/:slug/make_publish' do |slug|
@@ -172,14 +196,14 @@ module Bl
     get '/board/articles/add' do
       require_user
       erb :'board/articles/add', :layout => :'board/layout', :locals => {
-        previous_article: session[:article]
+        previous_article: session["article_add"]
       }
     end
 
     get '/board/articles/clear_previous' do
       require_user
       # Clear previous article from session
-      session[:article] = nil
+      session['article_add'] = nil
       redirect '/board/articles/add'
     end
 
@@ -220,6 +244,8 @@ module Bl
       draft = (params[:draft] == 'on')
       # Check data
       unless slug.nil? || title.nil? || abstract.nil? || content.nil?
+        # Reset temporary article add storage
+        session['article_add'] = nil
         # Insert article into database
         db.create_new_article(
           author: session[:user_id], slug: slug, title: title,
@@ -234,12 +260,47 @@ module Bl
       # New error flash
       new_flash 'error', 'wrong article details'
       # Store old article details in session
-      session[:article] = {
+      session["article_add"] = {
         slug: slug, title: title, abstract: abstract, content: content,
         draft: draft
       }
       # Redirect
       redirect '/board/articles/add'
+    end
+
+    post '/board/article/:aslug/update' do |aslug|
+      require_secret
+      require_user
+      # Get body data
+      slug = params[:slug]
+      title = params[:title]
+      abstract = params[:abstract]
+      content = params[:content]
+      draft = (params[:draft] == 'on')
+      # Check data
+      unless slug.nil? || title.nil? || abstract.nil? || content.nil?
+        # Reset temporary article edit storage
+        session["article_edit:#{slug}"] = nil
+        # Update article in database
+        db.update_article(
+          old_slug: aslug, author: session[:user_id], slug: slug, title: title,
+          abstract: abstract, content: content, draft: draft
+        )
+        # New flash message
+        new_flash 'success', 'article update'
+        # Redirect
+        redirect "/board/article/#{slug}"
+        return
+      end
+      # New error flash
+      new_flash 'error', 'wrong article details'
+      # Store old article details in session
+      session["article_edit:#{aslug}"] = {
+        slug: slug, title: title, abstract: abstract, content: content,
+        draft: draft
+      }
+      # Redirect
+      redirect "/board/article/#{aslug}/edit"
     end
 
     # Class internal helper functions
@@ -270,6 +331,15 @@ module Bl
 
     def require_user
       redirect '/' unless @auth
+    end
+
+    error 404 do
+      if @auth
+        new_flash 'error', 'article does not exist'
+        redirect '/board/articles'
+      else
+        erb :'error/article_not_found'
+      end
     end
   end
 end

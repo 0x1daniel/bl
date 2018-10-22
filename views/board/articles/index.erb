@@ -7,15 +7,16 @@
   <tr>
     <th>title</th>
     <th>created at</th>
-    <th>draft</th>
+    <th>author</th>
     <th>actions</th>
   </tr>
   <% articles.each do |a| %>
   <tr>
     <td article-title onclick="window.location.href = '/board/article/<%= a['slug'] %>'"><%= a['title'] %></td>
-    <td><%= Time.at(a['created_date'].to_i).strftime('%m/%d/%y') %></td>
-    <td><%= (a['is_draft'] == 'f') ? 'false' : 'true' %></td>
+    <td><%= Time.at(a['created_date'].to_i).strftime('%H:%M %m/%d/%y') %></td>
+    <td><%= a['fullname'] %></td>
     <td>
+      <a href="/board/article/<%= a['slug'] %>/edit">Edit</a>
       <% if a['is_draft'] == 't' %>
       <a href="/board/article/<%= a['slug'] %>/make_publish">Publish</a>
       <% else %>

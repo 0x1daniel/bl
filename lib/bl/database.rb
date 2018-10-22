@@ -57,6 +57,7 @@ module Bl
       @db.prepare('get_articles_draft_or_published_count', Queries::GET_ARTICLES_DRAFT_OR_PUBLISHED_COUNT)
       @db.prepare('get_article_draft_or_published_by_slug', Queries::GET_ARTICLE_DRAFT_OR_PUBLISHED_BY_SLUG)
       @db.prepare('get_article_published_by_slug', Queries::GET_ARTICLE_PUBLISHED_BY_SLUG)
+      @db.prepare('update_article', Queries::UPDATE_ARTICLE)
       @db.prepare('update_article_is_published', Queries::UPDATE_ARTICLE_IS_PUBLISHED)
       @db.prepare('update_article_is_draft', Queries::UPDATE_ARTICLE_IS_DRAFT)
     end
@@ -104,7 +105,6 @@ module Bl
       results = @db.exec_prepared(
         'get_article_draft_or_published_by_slug', [slug]
       )
-      p results[0]
       # Return if an record has been found
       return results[0] if results.ntuples == 1
     end
@@ -146,6 +146,14 @@ module Bl
       results = @db.exec_prepared('get_articles_draft_or_published_count')
       # Return single number
       return results[0]['count'].to_i
+    end
+
+    def update_article(old_slug:, author:, slug:, title:, abstract:, content:, draft:)
+      # Insert values and start execution
+      @db.exec_prepared(
+        'update_article',
+        [author, slug, title, abstract, content, draft, old_slug]
+      )
     end
 
     def update_article_is_published(slug:)

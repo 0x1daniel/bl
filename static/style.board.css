@@ -25,7 +25,7 @@ form[login] {
 
   max-width: 300px;
 }
-form[article-add] {
+form[article-add], form[article-edit] {
   margin: 0 auto;
   padding: 30px;
 
