@@ -102,5 +102,15 @@ module Bl
     DELETE FROM articles
     WHERE slug=$1
     SQL
+
+    GET_DASHBOARD_STATISTICS = <<-SQL
+    SELECT * FROM
+      (SELECT COUNT(user_id) AS users_count FROM users)
+      AS userst,
+      (SELECT COUNT(article_id) AS drafted_articles FROM articles WHERE is_draft='true')
+      AS articlest1,
+      (SELECT COUNT(article_id) AS published_articles FROM articles WHERE is_draft='false')
+      AS articlest2
+    SQL
   end
 end

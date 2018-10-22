@@ -61,6 +61,8 @@ module Bl
       @db.prepare('update_article_is_published', Queries::UPDATE_ARTICLE_IS_PUBLISHED)
       @db.prepare('update_article_is_draft', Queries::UPDATE_ARTICLE_IS_DRAFT)
       @db.prepare('delete_article_by_slug', Queries::DELETE_ARTICLE_BY_SLUG)
+      # Ensure other queries
+      @db.prepare('get_dashboard_statistics', Queries::GET_DASHBOARD_STATISTICS)
     end
 
     # User functions
@@ -170,6 +172,14 @@ module Bl
     def delete_article_by_slug(slug:)
       # Insert values and start execution
       @db.exec_prepared('delete_article_by_slug', [slug])
+    end
+
+    # Other functions
+    def get_dashboard_statistics
+      # Insert values and start execution
+      results = @db.exec_prepared('get_dashboard_statistics')
+      # Return if an record has been found
+      return results[0] if results.ntuples == 1
     end
   end
 end

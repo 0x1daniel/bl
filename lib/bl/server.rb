@@ -101,7 +101,11 @@ module Bl
 
     get '/board' do
       require_user
-      erb :'board/index', :layout => :'board/layout'
+      # Get dashboard statistics
+      statistics = db.get_dashboard_statistics
+      erb :'board/index', :layout => :'board/layout', :locals => {
+        statistics: statistics
+      }
     end
 
     get '/board/login' do

@@ -18,6 +18,12 @@ html {
 /* = HELPERS = */
 *[float-right] { float: right; }
 
+/* = TYPOGRAPHY = */
+a {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 /* = NAVIGATION = */
 nav[small] {
   list-style: none;
@@ -149,4 +155,15 @@ table[articles] th, table[articles] td {
 }
 table[articles] td[article-title] {
   cursor: pointer;
+}
+table[statistics] {
+  width: 100%;
+  border-collapse: collapse;
+  max-width: 500px;
+  margin: 0 auto;
+}
+table[statistics] th, table[statistics] td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #DDDDDD;
 }

@@ -1,1 +1,12 @@
-<h2>hello <%= @user_id %></h2>
+<table statistics>
+  <tr>
+    <th>drafted</th>
+    <th>published</th>
+    <th>total</th>
+  </tr>
+  <tr>
+    <td><%= statistics['drafted_articles'] %></td>
+    <td><%= statistics['published_articles'] %></td>
+    <td><%= statistics['drafted_articles'].to_i + statistics['published_articles'].to_i %></td>
+  </tr>
+</table>
