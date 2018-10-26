@@ -23,3 +23,9 @@ source 'https://rubygems.org'
 
 gem 'sinatra', '~> 2.0', '>= 2.0.4'
 gem 'pg', '~> 1.1', '>= 1.1.3'
+
+group :development do
+  gem 'rake', '~> 12.3', '>= 12.3.1'
+  gem 'yui-compressor', '~> 0.12.0'
+  gem 'listen', '~> 3.0'
+end

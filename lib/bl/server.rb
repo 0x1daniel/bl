@@ -53,16 +53,16 @@ module Bl
     end
 
     # Assets
-    get '/assets/style.css' do
-      send_file 'static/style.css'
+    get '/assets/style.min.css' do
+      send_file 'static/style.min.css'
     end
 
-    get '/assets/style.board.css' do
-      send_file 'static/style.board.css'
+    get '/assets/style.board.min.css' do
+      send_file 'static/style.board.min.css'
     end
 
-    get '/assets/script.js' do
-      send_file 'static/script.js'
+    get '/assets/script.min.js' do
+      send_file 'static/script.min.js'
     end
 
     # GET routes
